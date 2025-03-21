@@ -1,0 +1,15 @@
+classifier:
+  default_defs: "../classifier-definitions.json"
+  min_fuzz_score: 25
+
+fetcher:
+  uri: "https://data.nasa.gov/resource/gh4g-9sfh.json"
+  retry: #todo
+    attempts: 5 
+    backoff: 1 #seconds
+
+mysql:
+  host: "aws endpoint here"
+  secret-arn: "aws secret arn here"
+  db_name: "db name here"
+  table_name: "db name here"

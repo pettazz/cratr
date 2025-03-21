@@ -1,0 +1,261 @@
+[
+  {
+    "classifiers": ["Enstatite", "enst", "E3", "E4", "E5", "E6", "E7"],
+    "name": "Enstatite Chondrite",
+    "resources": ["iron", "enstatite", "troilite", "plagioclase", "olivine"],
+    "id": "E"
+  },
+  {
+    "classifiers": ["EH3", "EH4", "EH5", "EH6"],
+    "name": "High Iron Enstatite Chondrite",
+    "resources": ["iron", "enstatite", "troilite", "plagioclase"],
+    "id": "EH"
+  },
+  {
+    "classifiers": ["EL3", "EL4", "EL5", "EL6"],
+    "name": "Low Iron Enstatite Chondrite",
+    "resources": ["iron", "enstatite", "troilite", "plagioclase", "olivine"],
+    "id": "EL"
+  },
+  {
+    "classifiers": ["H", "H3", "H4", "H5", "H6", "H7"],
+    "name": "High Iron Ordinary Chondrite",
+    "resources": ["iron", "bronzite", "olivine", "pyroxene", "plagioclase", "troilite"],
+    "id": "H"
+  },
+  {
+    "classifiers": ["L", "L3", "L4", "L5", "L6", "L7"],
+    "name": "Low Iron Ordinary Chondrite",
+    "resources": ["iron", "hypersthene", "olivine", "pyroxene", "plagioclase", "troilite"],
+    "id": "L"
+  },
+  {
+    "classifiers": ["LL", "LL3", "LL4", "LL5", "LL6", "LL7"],
+    "name": "Low Metal Content Ordinary Chondrite",
+    "resources": ["iron", "olivine", "bronzite", "oligoclase"],
+    "id": "LL"
+  },
+  {
+    "classifiers": ["OC"],
+    "name": "Ordinary Chondrite",
+    "resources": ["iron", "olivine"],
+    "id": "OC"
+  },
+  {
+    "classifiers": ["Iron"],
+    "name": "Iron",
+    "resources": ["iron"],
+    "id": "I"
+  },
+  {
+    "classifiers": ["IIAB"],
+    "name": "Iron Hexahedrite (Low Nickel)",
+    "resources": ["iron", "nickel", "kamacite", "daubreelite", "graphite"],
+    "id": "IH"
+  },
+  {
+    "classifiers": ["IAB", "IC", "IIC", "IID", "IIE", "IIIAB", "IIIE", "IIIF", "IVA"],
+    "name": "Iron Octahedrite",
+    "resources": ["iron", "nickel", "kamacite", "troilite", "schreibersite", "rhabdite", "graphite"],
+    "id": "IO"
+  },
+  {
+    "classifiers": ["IIF", "IIICD", "IVB"],
+    "name": "Iron Ataxite (High Nickel)",
+    "resources": ["iron", "nickel", "kamacite", "cohenite", "haxonite", "graphite"],
+    "id": "IA"
+  },
+  {
+    "classifiers": ["Ivuna", "CI"],
+    "name": "Ivuna Carbonaceous Chondrite",
+    "resources": ["elemental carbon", "phyllosilicate", "magnetite"],
+    "id": "CI"
+  },
+  {
+    "classifiers": ["Mighei", "CM"],
+    "name": "Mighei Carbonaceous Chondrite",
+    "resources": ["elemental carbon", "phyllosilicate", "tochilinite", "olivine"],
+    "id": "CM"
+  },
+  {
+    "classifiers": ["Vigarano", "CV"],
+    "name": "Vigarano Carbonaceous Chondrite",
+    "resources": ["elemental carbon", "calcium–aluminium-rich inclusion", "olivine"],
+    "id": "CV"
+  },
+  {
+    "classifiers": ["Renazzo", "CR"],
+    "name": "Renazzo Carbonaceous Chondrite",
+    "resources": ["elemental carbon", "phyllosilicate", "pyroxene"],
+    "id": "CR"
+  },
+  {
+    "classifiers": ["Ornans", "CO"],
+    "name": "Ornans Carbonaceous Chondrite",
+    "resources": ["elemental carbon", "pyroxene", "calcium–aluminium-rich inclusion", "olivine"],
+    "id": "CV"
+  },
+  {
+    "classifiers": ["Karoonda", "CK"],
+    "name": "Karoonda Carbonaceous Chondrite",
+    "resources": ["elemental carbon", "calcium–aluminium-rich inclusion", "olivine"],
+    "id": "CK"
+  },
+  {
+    "classifiers": ["Bencubbin", "CB"],
+    "name": "Bencubbin Carbonaceous Chondrite",
+    "resources": ["elemental carbon", "pyroxene"],
+    "id": "CB"
+  },
+  {
+    "classifiers": ["High Iron", "CH"],
+    "name": "High Iron Carbonaceous Chondrite",
+    "resources": ["elemental carbon", "pyroxene", "iron", "olivine"],
+    "id": "CH"
+  },
+  {
+    "classifiers": ["Tagish Lake", "TAG"],
+    "name": "Tagish Lake Carbonaceous Chondrite",
+    "resources": ["elemental carbon", "phyllosilicate", "magnetite", "olivine", "pyroxene"],
+    "id": "CH"
+  },
+  {
+    "classifiers": ["Kakangari", "K"],
+    "name": "Kakangari Carbonaceous Chondrite",
+    "resources": ["elemental carbon", "kamacite", "schreibersite"],
+    "id": "K"
+  },
+  {
+    "classifiers": ["Rumurutiite", "R"],
+    "name": "Rumurutiite Carbonaceous Chondrite",
+    "resources": ["elemental carbon", "olivine", "pyroxene", "plagioclase", "troilite"],
+    "id": "R"
+  },
+  {
+    "classifiers": ["Howardite", "HOW"],
+    "name": "Howardite Achondrite",
+    "resources": ["vesta regolith", "eucrite", "diogenite"],
+    "id": "HOW"
+  },
+  {
+    "classifiers": ["Eucrite", "EUC"],
+    "name": "Eucrite Achondrite",
+    "resources": ["vesta basalt", "anorthite", "pigeonite"],
+    "id": "EUC"
+  },
+  {
+    "classifiers": ["Diogenite", "DIO"],
+    "name": "Diogenite Achondrite",
+    "resources": ["vesta plutonic", "hypersthene"],
+    "id": "DIO"
+  },
+  {
+    "classifiers": ["Shergottite", "Martian basaltic", "SHE"],
+    "name": "Diogenite Achondrite",
+    "resources": ["martian basalt", "augite", "pigeonite"],
+    "id": "SHE"
+  },
+  {
+    "classifiers": ["Nakhlite", "NAK"],
+    "name": "Nakhlite Achondrite",
+    "resources": ["martian plutonic", "diopside", "olivine"],
+    "id": "NAK"
+  },
+  {
+    "classifiers": ["Chassignite", "CHA"],
+    "name": "Chassignite Achondrite",
+    "resources": ["martian plutonic", "olivine"],
+    "id": "CHA"
+  },
+  {
+    "classifiers": ["Lunar", "Lunar Basalt", "LUN"],
+    "name": "Lunar Achondrite",
+    "resources": ["lunar basalt", "lunar regolith"],
+    "id": "LUN"
+  },
+  {
+    "classifiers": ["Aubrite", "AUB"],
+    "name": "Aubrite Achondrite",
+    "resources": ["enstatite", "nickel", "iron"],
+    "id": "AUB"
+  },
+  {
+    "classifiers": ["Acapulcoite", "ACAP"],
+    "name": "Acapulcoite Achondrite",
+    "resources": ["olivine", "pyroxene"],
+    "id": "ACAP"
+  },
+  {
+    "classifiers": ["Lodranite", "LOD"],
+    "name": "Lodranite Achondrite",
+    "resources": ["olivine", "pyroxene"],
+    "id": "LOD"
+  },
+  {
+    "classifiers": ["Ureilite", "URE"],
+    "name": "Ureilite Achondrite",
+    "resources": ["elemental carbon", "olivine", "pigeonite"],
+    "id": "URE"
+  },
+  {
+    "classifiers": ["Angrite", "ANGR"],
+    "name": "Angrite Achondrite",
+    "resources": ["basalt", "olivine", "pyroxene", "plagioclase"],
+    "id": "ANGR"
+  },
+  {
+    "classifiers": ["Brachinite", "BRACH"],
+    "name": "Brachinite Achondrite",
+    "resources": ["olivine"],
+    "id": "BRACH"
+  },
+  {
+    "classifiers": ["Winonaite", "WIN"],
+    "name": "Winonaite Achondrite",
+    "resources": ["iron", "nickel", "taenite", "kamacite", "cohenite", "haxonite", "graphite"],
+    "id": "WIN"
+  },
+  {
+    "classifiers": ["Pallasite Eagle Station", "Pallasite PES"],
+    "name": "Pallasite (Eagle Station) Stony Iron",
+    "resources": ["iron", "nickel", "olivine", "pyroxene", "iridium"],
+    "id": "PALE"
+  },
+  {
+    "classifiers": ["Pallasite Pyroxene"],
+    "name": "Pallasite (Pyroxene) Stony Iron",
+    "resources": ["iron", "nickel", "pyroxene", "iridium"],
+    "id": "PALP"
+  },
+  {
+    "classifiers": ["Pallasite", "PAL", "Pallasite Main Group", "Pallasite PMG", "Pallasite Ungrouped"],
+    "name": "Pallasite Stony Iron",
+    "resources": ["iron", "nickel", "olivine", "iridium"],
+    "id": "PAL"
+  },
+  {
+    "classifiers": ["Mesosiderite", "Mesosiderite-A"],
+    "name": "Mesosiderite Class A Stony Iron",
+    "resources": ["iron", "nickel", "basalt", "plagioclase", "diopside", "hedenbergite", "augite"],
+    "id": "MESA"
+  },
+  {
+    "classifiers": ["Mesosiderite-B"],
+    "name": "Mesosiderite Class B Stony Iron",
+    "resources": ["iron", "nickel", "olivine", "plagioclase", "diopside", "hedenbergite", "augite", "orthopyroxene"],
+    "id": "MESB"
+  },
+  {
+    "classifiers": ["Mesosiderite-C"],
+    "name": "Mesosiderite Class C Stony Iron",
+    "resources": ["iron", "nickel", "orthopyroxene"],
+    "id": "MESC"
+  },
+
+  {
+    "classifiers": ["Ungrouped", "ung", "uncl", "unknown", "prim", "?", "Martian", "C", "Chondrite-ung", "Achondrite", "Achondrite-ung", "Achondrite-prim"],
+    "name": "Unclassified",
+    "resources": [],
+    "id": "UNK"
+  }
+]

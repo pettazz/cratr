@@ -1,0 +1,72 @@
+[
+    {
+        "name": "Thumb Butte",
+        "id": "53890",
+        "nametype": "Valid",
+        "recclass": "Iron",
+        "mass": "105",
+        "fall": "Found",
+        "year": "2008-01-01T00:00:00.000",
+        "reclat": "35.169930",
+        "reclong": "-114.455850",
+        "geolocation":
+        {
+            "latitude": "35.16993",
+            "longitude": "-114.45585"
+        },
+        ":@computed_region_cbhk_fwbd": "7",
+        ":@computed_region_nnqa_25f4": "8"
+    },
+    {
+        "name": "Miller Butte 03002",
+        "id": "16649",
+        "nametype": "Valid",
+        "recclass": "Iron, IID",
+        "mass": "82.7",
+        "fall": "Found",
+        "year": "2003-01-01T00:00:00.000",
+        "reclat": "-72.693580",
+        "reclong": "160.268310",
+        "geolocation":
+        {
+            "latitude": "-72.69358",
+            "longitude": "160.26831"
+        }
+    },
+    {
+        "name": "Two Buttes (a)",
+        "id": "24091",
+        "nametype": "Valid",
+        "recclass": "LL6-melt breccia",
+        "mass": "19700",
+        "fall": "Found",
+        "year": "1962-01-01T00:00:00.000",
+        "reclat": "37.633330",
+        "reclong": "-102.416670",
+        "geolocation":
+        {
+            "latitude": "37.63333",
+            "longitude": "-102.41667"
+        },
+        ":@computed_region_cbhk_fwbd": "9",
+        ":@computed_region_nnqa_25f4": "1397"
+    },
+    {
+        "name": "Two Buttes (b)",
+        "id": "24092",
+        "nametype": "Valid",
+        "recclass": "L(LL)3.5-3.7",
+        "mass": "3000",
+        "fall": "Found",
+        "year": "1970-01-01T00:00:00.000",
+        "reclat": "37.633330",
+        "reclong": "-102.416670",
+        "geolocation":
+        {
+            "latitude": "37.63333",
+            "longitude": "-102.41667"
+        },
+        ":@computed_region_cbhk_fwbd": "9",
+        ":@computed_region_nnqa_25f4": "1397"
+    }
+]

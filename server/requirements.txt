@@ -1,2 +1,6 @@
+boto3
 httpx
+methodtools
+mysql-connector-python
 thefuzz
+pyyaml

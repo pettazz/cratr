@@ -1,0 +1,20 @@
+[
+  {
+    "classifiers": ["1", "one", "won"],
+    "name": "One",
+    "resources": ["rocks", "dirt", "junk"],
+    "id": "ONE"
+  },
+  {
+    "classifiers": [],
+    "name": "Guy who won",
+    "resources": ["stuff"],
+    "id": "WON"
+  },
+  {
+    "classifiers": ["lmao"],
+    "name": "Laughing Rocks Loudly",
+    "resources": ["nonsense"],
+    "id": "LOL"
+  }
+]

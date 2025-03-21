@@ -1,69 +1,62 @@
+import logging
 import json, re
-import httpx
+
 from thefuzz import fuzz
 from thefuzz import process
 
-per_req_limit = 5000
-base_url = "https://data.nasa.gov/resource/gh4g-9sfh.json"
-rows_params = {"$query": "SELECT count(*) AS rowcount"}
-limit_params = {"$limit": "%d" % per_req_limit, "$offset": "%(offset)d"}
+from config import Config
 
-headers = {
-  "Content-Type": "application/json",
-  "Accept": "application/json",
-  "Accept-Encoding": "gzip, deflate, br"
-}
+class Classifier:
 
-try:
-  response = httpx.get(base_url, params=rows_params, headers=headers)
-  response.raise_for_status()
-except httpx.RequestError as exc:
-    raise Exception(f"An error occurred while requesting {exc.request.url!r}.")
-except httpx.HTTPStatusError as exc:
-    raise Exception(f"Error response {exc.response.status_code} while requesting {exc.request.url!r}.")
+  def __init__(self, classifier_defs_file=None):
+    self.logger = logging.getLogger(self.__class__.__name__)
+    if classifier_defs_file is None:
+      classifier_defs_file = Config().classifier.default_defs
+    self.logger.debug("using classifier definitions: %s" % classifier_defs_file)
 
-total_rows = int(response.json()[0]["rowcount"])
+    self.choices = []
+    self.choice_map = {}
 
-meteorites = []
+    with open(classifier_defs_file) as fin:
+      classifications = json.load(fin)
+      for classification in classifications:
+        self.choices += classification["classifiers"]
 
-for i in range(0, total_rows, per_req_limit):
-  req_params = {k: v % {"offset": i} for k, v in limit_params.items()}
-  
-  try:
-    response = httpx.get(base_url, params=req_params, headers=headers)
-    response.raise_for_status()
-  except httpx.RequestError as exc:
-      raise Exception(f"An error occurred while requesting {exc.request.url!r}.")
-  except httpx.HTTPStatusError as exc:
-      raise Exception(f"Error response {exc.response.status_code} while requesting {exc.request.url!r}.")
+        for choice in classification["classifiers"]:
+          if choice not in self.choice_map.keys():
+            self.choice_map[choice] = classification["id"]
+          else:
+            raise ValueError("duplicate classifier in definitions: " + choice)
+    self.logger.info("loaded %d classifications" % len(self.choice_map))
 
-  meteorites += response.json()
-
-if len(meteorites) > 0:
-  with open("known-classifications.json") as fin:
-    classifications = json.load(fin)
-    choices = []
-    choice_map = {}
-    for classification in classifications:
-      choices += classification["classifiers"]
-
-      for choice in classification["classifiers"]:
-        if choice not in choice_map.keys():
-          choice_map[choice] = classification["id"]
+  def classify(self, meteorites):
+    classed_meteorites = []
+       
+    for meteorite in meteorites:
+      required_keys = ["id", "name", "nametype", "recclass", "reclat", "reclong"]
+      if not (set(required_keys).issubset(set(meteorite.keys())) and meteorite["nametype"] == "Valid"):
+        self.logger.info("discarding row with invalid/missing data: %s" % meteorite)
+      else:
+        clss = meteorite["recclass"]
+        test = re.sub(r"\-|\(|\)|IMPACT|IMP|MELT|BRECCIA|ROCK|METAL|IRON,", " ", clss.upper())
+        if not test.strip():
+          self.logger.debug("recclass `%s` reduced to empty, calling it unknown")
+          cid = "UNK"
         else:
-          raise Exception("duplicate classifier: " + choice)
-  
-  for meteorite in meteorites:
-    clss = meteorite["recclass"]
-    test = re.sub(r"\-|\(|\)|IMPACT|IMP|MELT|BRECCIA|ROCK|METAL|IRON,", " ", clss.upper())
-    if not test.strip():
-      print(clss, "blanked to", "?")
-      cid = "?"
-    else:
-      matched = process.extractOne(test, choices, scorer=fuzz.token_sort_ratio)
-      if not matched:
-        raise Exception("unmatched classification: `%s` as `%s`" % (clss, test))
+          matched = process.extractOne(test, self.choices, scorer=fuzz.token_sort_ratio)
+          if not matched or matched[1] < Config().classifier.min_fuzz_score:
+            raise ValueError("unmatched classification: `%s` as `%s`" % (clss, test))
+          cid = self.choice_map[matched[0]]
 
-      cid = choice_map[matched[0]]
-      print(clss, "->", cid)
+        classed_meteorites.append({
+          "id": int(meteorite["id"]),
+          "name": meteorite["name"],
+          "class": cid,
+          "mass": float(meteorite["mass"] if "mass" in meteorite.keys() else 0),
+          # these are str timestamps that are all jan 1 00:00:00
+          "year": int(meteorite["year"][:4] if "year" in meteorite.keys() else 0), 
+          "lat": float(meteorite["reclat"]),
+          "lon": float(meteorite["reclong"])
+        })
 
+    return classed_meteorites
