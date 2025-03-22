@@ -1,5 +1,7 @@
+default_search_radius: 50
+
 classifier:
-  default_defs: "../classifier-definitions.json"
+  default_defs: "classifier-definitions.json"
   min_fuzz_score: 25
 
 fetcher:

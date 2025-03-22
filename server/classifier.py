@@ -55,8 +55,9 @@ class Classifier:
           "mass": float(meteorite["mass"] if "mass" in meteorite.keys() else 0),
           # these are str timestamps that are all jan 1 00:00:00
           "year": int(meteorite["year"][:4] if "year" in meteorite.keys() else 0), 
-          "lat": float(meteorite["reclat"]),
-          "lon": float(meteorite["reclong"])
+          # normalize for non standard values > 180 or < -180
+          "lat": (float(meteorite["reclat"])  % 360 + 540) % 360 - 180, 
+          "lon": (float(meteorite["reclong"])  % 360 + 540) % 360 - 180
         })
 
     return classed_meteorites
