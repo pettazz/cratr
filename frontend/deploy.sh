@@ -2,10 +2,7 @@
 
 mydir="$(cd "$(dirname "$0")" && pwd)"
 
-# npm run build
-rm -r dist
-mkdir dist
-cp index.html dist
+pnpm run build
 
 aws s3 sync ./dist s3://cratr-site\
  --delete\
