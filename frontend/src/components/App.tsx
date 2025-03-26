@@ -5,91 +5,186 @@ import React, {
   useState 
 } from 'react';
 import { 
+  Icon, 
+  LatLngLiteral 
+} from 'leaflet';
+import { 
   MapContainer,
   Marker,
   Popup,
   TileLayer, 
-  useMap 
+  useMap,
+  useMapEvents 
 } from 'react-leaflet';
 
-import { useLocation } from 'utils/useLocation'
+import { classificationMap, resourceList } from 'utils';
+import { useLocation } from 'utils/useLocation';
+import markerIconImg from 'assets/marker-icon.png';
 
-function DisplayPosition({ map, center }) {
-  const [position, setPosition] = useState(() => map.getCenter());
+const defaultLocation: LatLngLiteral = { lat: 29.56, lng: -95.09 },
+      maxSearchRadius: number = 500, 
+      defaultZoom: number = 8,
+      apiURL: string = process.env.NODE_ENV == "production" ? 
+        'https://api.cratr.rocks/meteorites':
+        '/meteorites';
 
-  const onResetClick = useCallback(() => {
-    map.setView(getCenter);
-  }, [map]);
+const markerIcon = new Icon({
+  iconUrl: markerIconImg,
+  iconSize: [25, 25]
+});
 
-  const onSearchMap = useCallback(() => {
-    map.setView(center);
-  }, [map]);
+type Meteorite = {
+  id: number
+  name: string
+  class: string
+  distance: number
+  mass: number
+  year: number
+  lat: number
+  lon: number
+};
 
-  const onMove = useCallback(() => {
-    setPosition(map.getCenter());
-  }, [map]);
+function MeteoriteMarkers(selectedResourcesMap: any) {
+  // todo: replace passing this map around with proper state
+  const selectedResources = selectedResourcesMap["selectedResources"];
+  const [meteorites, setMeteorites] = useState<Meteorite[]>([]);
+  const map = useMap();
+
+  const findRadius = () => {
+    const bounds = map.getBounds(),
+          vert = bounds.getNorthWest().distanceTo(bounds.getSouthWest()) * 0.000621371,
+          horiz = bounds.getNorthWest().distanceTo(bounds.getNorthEast()) * 0.000621371,
+          minRadius = Math.min(vert, horiz) / 2;
+
+    return minRadius > maxSearchRadius ? maxSearchRadius : minRadius;
+  }
+
+  const updateMarkers = () => {
+    const currentLocation = map.getCenter(),
+          currentLocationRounded = {
+            // 11.1 km accuracy at 1 decimal place
+            lat: currentLocation.lat.toFixed(1),
+            lng: currentLocation.lng.toFixed(1)
+          };
+
+    console.debug("requesting for", currentLocationRounded);
+    fetch(`${apiURL}?lat=${currentLocationRounded.lat}&lon=${currentLocationRounded.lng}&radius=${findRadius()}`)
+      .then((response) => response.json())
+      .then((response) => {
+        setMeteorites(response);
+      });
+  }
 
   useEffect(() => {
-    map.on('move', onMove);
-    return () => {
-      map.off('move', onMove);
-    }
-  }, [map, onMove]);
+    updateMarkers();
+  }, []);
+
+  useMapEvents({
+    moveend: updateMarkers,
+    zoomend: updateMarkers
+  });
 
   return (
-    <div className="mt-4 text-xl text-gray-500">
-      <h2>Coordinates</h2>
-      <p>latitude: {position.lat.toFixed(4)}</p>
-      <p>longitude: {position.lng.toFixed(4)}{' '}</p>
-      <button className="rounded-full text-white bg-indigo-500" onClick={onResetClick}>Reset Map</button>
-      <button className="rounded-full text-white bg-indigo-500" onClick={onSearchMap}>Search within current map</button>
-    </div>
+    <React.Fragment>
+      {meteorites.filter((meteorite: Meteorite) => { 
+                    const cls = classificationMap.get(meteorite.class);
+                    return cls && cls.resources.some(resource => selectedResources.get(resource)) })
+                 .map((meteorite: Meteorite) => {
+                    const cls = classificationMap.get(meteorite.class)
+
+                    return (
+                      <Marker 
+                        icon={markerIcon}
+                        key={meteorite.id}
+                        position={{ lat: meteorite.lat, lng: meteorite.lon }}>
+                        <Popup>
+                          <strong>{meteorite.name}</strong> ({meteorite.year})<br />
+                          <em>{meteorite.distance.toFixed(1)} miles from map center</em><br />
+                          {cls ? cls.name : 'Unnamed Meteorite'}, {meteorite.mass} grams<br />
+                          {cls && cls.resources.length > 0 ? 'Resources: ' + cls.resources.join(", ") : ''}
+                        </Popup>
+                      </Marker>
+                    );
+                  })}
+    </React.Fragment>
   );
 }
 
+interface ResourceCheckboxProps {
+  resource: string;
+  isChecked: boolean;
+  onChange: React.ChangeEventHandler;
+  label: string;
+}
+
+function ResourceCheckbox({ resource, isChecked, onChange, label }: ResourceCheckboxProps) {
+  return (
+    <p>
+      <input
+        type="checkbox"
+        id={`chx-resource-${resource}`}
+        checked={isChecked}
+        onChange={onChange}
+      />
+      <label htmlFor={`chx-resource-${resource}`}>{label}</label>
+    </p>
+  )
+};
+
 function App() {
-  const [map, setMap] = useState(null);
-  const { location, locationError } = useLocation();
+  let { isLocating, location, locationError } = useLocation();
 
-  const displayMap = useMemo(() => {
-    if (locationError) {
-      console.log(locationError)
-      let msg = "There was a problem finding your location";
-      
-      if ("code" in locationError){
-        if (locationError.code == 0) msg = "Your device or browser does not support location services";
-        if (locationError.code == 1) msg = "Cratr does not have permission to use location services";
-      }
+  const defaultResourceSelection = new Map(resourceList.map(r => [r, true])),
+        [selectedResources, setSelectedResources] = useState(defaultResourceSelection);
 
-      return <div>uh oh no mappy: {msg}</div>;
+  const updateResourceSelection = (resource: string) => {
+    selectedResources.set(resource, !selectedResources.get(resource));
+    setSelectedResources(selectedResources);
+  };
+
+  const displayMap = () => {
+    if (isLocating) {
+      return <div>locating...</div>
     }
 
-    if (!location) {
-      return <div>locating...</div>
+    if (locationError) {
+      location = defaultLocation;
     }
 
     return (
       <MapContainer
-        center={[location.latitude, location.longitude]}
-        zoom="10"
-        scrollWheelZoom={false}
-        ref={setMap}>
+        center={location}
+        zoom={defaultZoom}
+        scrollWheelZoom={false}>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
+        <MeteoriteMarkers selectedResources={selectedResources} />
       </MapContainer>
-  )}, [map, location, locationError]);
-
+  )};
 
   return (
     <div>
       <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
-        cratr
+        Cratr
       </h1>
+      <div>{locationError ? 'Unable to use your location. ' : ''}Move or zoom the map to redo search.</div>
+      {displayMap()}
 
-      {map ? <DisplayPosition map={map} center={[location.latitude, location.longitude]} /> : null}
-      {displayMap}
+      <div>
+        <h3>Choose which resources to display</h3>
+        {Array.from(selectedResources.keys(), String).map((resource: string) => {
+          return (
+            <ResourceCheckbox
+              key={resource}
+              resource={resource}
+              isChecked={selectedResources.get(resource) ?? false}
+              onChange={() => updateResourceSelection(resource)}
+              label={resource} />
+          );
+        })}
+      </div>
     </div>
   );
 }

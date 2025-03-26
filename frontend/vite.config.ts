@@ -6,6 +6,14 @@ import tsconfigPaths from 'vite-tsconfig-paths'
 // https://vitejs.dev/config https://vitest.dev/config
 export default defineConfig({
   plugins: [react(), tsconfigPaths()],
+  server: {
+    proxy: {
+      '/meteorites': {
+        target: 'https://api.cratr.rocks',
+        changeOrigin: true
+      },
+    },
+  },
   test: {
     globals: true,
     environment: 'happy-dom',

@@ -32,3 +32,6 @@ deployment:
   - cratr.rocks -> s3 bucket
   - add CNAME to domain to point to distribution domain name
   - add s3:GetObject policy for cf to s3 bucket 
+
+- add eventbridge cron to trigger cratr lambda
+  - payload event object {"action": "fetch"}
